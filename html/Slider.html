@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Slide</title> 
+    <style type="text/css">
+      body{
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #slider{
+        height: 450px;
+        width: 300px;
+        position: absolute;
+        overflow: hidden;
+      }
+      #slideSet{
+        height: 450px;
+        width: 900px;
+        position: relative;
+      }
+      .slide{
+        height: 450px;
+        width: 300px;
+        float: left;
+        position: relative;
+      }
+      img{
+        height: 100%;
+        width:  300px;
+        margin: 0;
+        padding: 0;
+      }
+      #left{
+        position: absolute;
+        width: 50px;
+      }
+      #right{
+        position: absolute;
+        width: 50px;
+        left: 250px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="slider">
+      <div id="slideSet">
+        <div class="slide">
+          <img src="../img/img1.jpg">
+        </div>
+        <div class="slide">
+          <img src="../img/img2.jpg">
+        </div>
+        <div class="slide">
+          <img src="../img/img3.jpg">
+        </div>
+      </div>
+    </div>
+    <button id="left">left</button>
+    <button id="right">right</button>
+    <script type="text/javascript">
+      var leftt = document.getElementById('left');
+      var right = document.getElementById('right');
+
+      left.onclick = function(){
+        var slider = document.getElementById('slideSet');
+        var x = slider.getBoundingClientRect().left;
+        
+        var width = slider.clientWidth;
+        slider.style.width = width + 300 + "px";
+        console.log(slider.clientWidth);
+
+        let slides = document.getElementById("slideSet");
+        let first = slides.firstElementChild;
+        let clone = slides.firstElementChild.cloneNode(true);
+        slides.removeChild(first);
+        slides.appendChild(clone);
+      }
+
+      right.onclick = function(){
+        var slider = document.getElementById('slideSet');
+        var x = slider.getBoundingClientRect().left;
+        
+        var width = slider.clientWidth;
+        slider.style.width = width + 300 + "px";
+        console.log(slider.clientWidth);
+
+        let slides = document.getElementById("slideSet");
+        let first = slides.firstElementChild;
+        let clone = slides.firstElementChild.cloneNode(true);
+        slides.removeChild(first);
+        slides.appendChild(clone);
+      }
+
+/*
+      function Move(){
+        var slider = document.getElementById('slideSet');
+        var x = slider.getBoundingClientRect().left;
+        slider.style.left = x - 1 + "px";
+        console.log(slider.style.left);
+      }
+
+      function slide(){
+        setInterval("Move()", 1);
+      }
+
+      var testTimer;
+
+      function startTimer(){
+        var slider = document.getElementById('slideSet');
+        var x = slider.getBoundingClientRect().left;
+      
+        if(Math.abs(x) ){
+          testTimer=setInterval(function(){
+            Move();
+          } , 1000);
+        }
+      }
+
+      function stopTimer(){
+        clearInterval(testTimer);
+      }
+        
+      window.onload = function(){
+        //1000ミリ秒（1秒）毎に関数「showNowDate()」を呼び出す
+        setInterval("slide()", 1000);
+      }
+
+        for(var i = 0; i < 300; i++){
+          slider.style.left = x-- + "px";
+        }
+
+        var index = 0;
+        var newIndex = 0;
+        for(var i = 0; i < slide.length; i++){
+          if(slide[i].className == "slide active"){
+            console.log("yeah");
+            index = i;
+          }
+        }
+        if(index ==  slide.length -1){
+          newIndex = 0;
+        }else{
+          newIndex = index + 1;
+        }
+        slide[index].className = "slide";
+        slide[newIndex].className = "slide active";
+      }
+*/
+        
+      
+      
+    </script>
+  </body>
+</html>
