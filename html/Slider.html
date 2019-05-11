@@ -61,36 +61,33 @@
     <button id="right">right</button>
     <script type="text/javascript">
       var leftt = document.getElementById('left');
-      var right = document.getElementById('right');
-
       left.onclick = function(){
         var slider = document.getElementById('slideSet');
+/*
         var x = slider.getBoundingClientRect().left;
         
         var width = slider.clientWidth;
         slider.style.width = width + 300 + "px";
         console.log(slider.clientWidth);
 
+*/
         let slides = document.getElementById("slideSet");
         let first = slides.firstElementChild;
-        let clone = slides.firstElementChild.cloneNode(true);
+        let clone = first.cloneNode(true);
+        //let clone = slides.firstElementChild.cloneNode(true);
         slides.removeChild(first);
         slides.appendChild(clone);
       }
 
+      var right = document.getElementById('right');
       right.onclick = function(){
         var slider = document.getElementById('slideSet');
-        var x = slider.getBoundingClientRect().left;
-        
-        var width = slider.clientWidth;
-        slider.style.width = width + 300 + "px";
-        console.log(slider.clientWidth);
 
         let slides = document.getElementById("slideSet");
-        let first = slides.firstElementChild;
-        let clone = slides.firstElementChild.cloneNode(true);
-        slides.removeChild(first);
-        slides.appendChild(clone);
+        let last = slides.lastElementChild;
+        let clone = last.cloneNode(true);
+        slides.removeChild(last);
+        slides.insertBefore(clone, slides.firstChild);
       }
 
 /*
