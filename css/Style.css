@@ -1,0 +1,80 @@
+/* ref
+https://design.webclips.jp/css-arrow/
+*/
+
+body{
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+#slideShow{
+  height: 450px;
+  width: 900px;
+  position: absolute;
+}
+#show{
+  height: 450px;
+  width: 300px;
+  position: absolute;
+  left: 300px;
+  overflow: hidden;
+}
+#prevSlide, #nowSlide, #nextSlide {
+  height: 450px;
+  width: 300px;
+  float: left;
+  position: absolute;
+}
+#prevSlide {
+  left: -300px;
+}
+#nowSlide {
+  left: 0px;
+}
+#nextSlide {
+  left: 300px;
+}
+.slides{
+  height: 450px;
+  width: 300px;
+  float: left;
+  position: relative;
+}
+img{
+  position: absolute;
+  height: 100%;
+  width:  300px;
+  margin: 0;
+  padding: 0;
+}
+#slideSet{
+  opacity: 0;
+}
+#next{
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  left: 250px;
+  top: 190px;
+  z-index: 1;
+  border-top: solid 30px transparent;
+  border-right: solid 15px #697b91;
+  border-bottom: solid 30px transparent;
+  border-left: solid 15px transparent;
+}
+#prev{
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  left: 615px;
+  top: 190px;
+  z-index: 1;
+  border-top: solid 30px transparent;
+  border-riget: solid 15px transparent;
+  border-bottom: solid 30px transparent;
+  border-left: solid 15px #697b91;
+}
+#next:hover, #prev:hover{
+  cursor: pointer;
+}
