@@ -9,145 +9,238 @@
         margin: 0;
         padding: 0;
       }
-      #slider{
+      #slideShow{
+        height: 450px;
+        width: 900px;
+        position: absolute;
+      }
+      #show{
         height: 450px;
         width: 300px;
         position: absolute;
+        left: 300px;  
         overflow: hidden;
       }
-      #slideSet{
+      #prevSlide, #nowSlide, #nextSlide {
         height: 450px;
-        width: 900px;
-        position: relative;
+        width: 300px;
+        float: left;
+        position: absolute;
       }
-      .slide{
+      #prevSlide {
+        left: -300px;
+      }
+      #nowSlide {
+        left: 0px;
+      }
+      #nextSlide {
+        left: 300px;
+      }
+      .slides{
         height: 450px;
         width: 300px;
         float: left;
         position: relative;
       }
       img{
+        position: absolute;
         height: 100%;
         width:  300px;
         margin: 0;
         padding: 0;
       }
-      #left{
-        position: absolute;
-        width: 50px;
+      #slideSet{
+        opacity: 0;
       }
-      #right{
+
+      #next{ 
+        width: 0px;
+        height: 0px;
         position: absolute;
-        width: 50px;
         left: 250px;
+        top: 190px;
+        z-index: 1;
+        border-top: solid 30px transparent;
+        border-right: solid 15px #697b91;
+        border-bottom: solid 30px transparent;
+        border-left: solid 15px transparent;
+      }
+      #prev{ 
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        left: 615px;
+        top: 190px;
+        z-index: 1;
+        border-top: solid 30px transparent;
+        border-riget: solid 15px transparent;
+        border-bottom: solid 30px transparent;
+        border-left: solid 15px #697b91;
       }
     </style>
   </head>
   <body>
-    <div id="slider">
+    <div id="slideShow">
+    <div id="next"></div>
+    <div id="prev"></div>
+    <div id="show">
+      <div id="prevSlide">
+        <div class="dummy">dummy</div>
+      </div>
+      <div id="nowSlide">
+        <div class="dummy">dummy</div>
+      </div>
+      <div id="nextSlide">
+        <div class="dummy">dummy</div>
+      </div>
+      </div>
       <div id="slideSet">
-        <div class="slide">
+        <div class="slides active">
           <img src="../img/img1.jpg">
         </div>
-        <div class="slide">
+        <div class="slides">
           <img src="../img/img2.jpg">
         </div>
-        <div class="slide">
+        <div class="slides">
           <img src="../img/img3.jpg">
         </div>
       </div>
     </div>
-    <button id="left">left</button>
-    <button id="right">right</button>
+
     <script type="text/javascript">
-      var leftt = document.getElementById('left');
-      left.onclick = function(){
-        var slider = document.getElementById('slideSet');
-/*
-        var x = slider.getBoundingClientRect().left;
-        
-        var width = slider.clientWidth;
-        slider.style.width = width + 300 + "px";
-        console.log(slider.clientWidth);
-
-*/
-        let slides = document.getElementById("slideSet");
-        let first = slides.firstElementChild;
-        let clone = first.cloneNode(true);
-        //let clone = slides.firstElementChild.cloneNode(true);
-        slides.removeChild(first);
-        slides.appendChild(clone);
-      }
-
-      var right = document.getElementById('right');
-      right.onclick = function(){
-        var slider = document.getElementById('slideSet');
-
-        let slides = document.getElementById("slideSet");
-        let last = slides.lastElementChild;
-        let clone = last.cloneNode(true);
-        slides.removeChild(last);
-        slides.insertBefore(clone, slides.firstChild);
-      }
-
-/*
-      function Move(){
-        var slider = document.getElementById('slideSet');
-        var x = slider.getBoundingClientRect().left;
-        slider.style.left = x - 1 + "px";
-        console.log(slider.style.left);
-      }
-
-      function slide(){
-        setInterval("Move()", 1);
-      }
-
-      var testTimer;
-
-      function startTimer(){
-        var slider = document.getElementById('slideSet');
-        var x = slider.getBoundingClientRect().left;
+    // 各DOM要素を取得する
+    let nowSlide = document.getElementById('nowSlide');
+    let prevSlide = document.getElementById('prevSlide');
+    let nextSlide = document.getElementById('nextSlide');
       
-        if(Math.abs(x) ){
-          testTimer=setInterval(function(){
-            Move();
-          } , 1000);
+    let slides = document.getElementsByClassName('slides');
+    let slideSet = document.getElementsByClassName('slideSet');
+
+    let next = document.getElementById('next');
+    let prev = document.getElementById('prev');
+
+    function GetIndexs(){
+
+      // 表示順序を計算する
+      let nowSlideIndex  = 0;
+      let prevSlideIndex = 0;
+      let nextSlideIndex = 0;
+
+      for(let i = 0; i < slides.length; i++){
+        if(slides[i].className == "slides active"){
+          nowSlideIndex = i;
         }
       }
 
-      function stopTimer(){
-        clearInterval(testTimer);
-      }
-        
-      window.onload = function(){
-        //1000ミリ秒（1秒）毎に関数「showNowDate()」を呼び出す
-        setInterval("slide()", 1000);
+      prevSlideIndex = nowSlideIndex - 1;
+      nextSlideIndex = nowSlideIndex + 1;
+
+      // 最初のスライドを表示してたら最後をprevにする
+      if(nowSlideIndex == 0){
+        prevSlideIndex = slides.length -1;
       }
 
-        for(var i = 0; i < 300; i++){
-          slider.style.left = x-- + "px";
-        }
-
-        var index = 0;
-        var newIndex = 0;
-        for(var i = 0; i < slide.length; i++){
-          if(slide[i].className == "slide active"){
-            console.log("yeah");
-            index = i;
-          }
-        }
-        if(index ==  slide.length -1){
-          newIndex = 0;
-        }else{
-          newIndex = index + 1;
-        }
-        slide[index].className = "slide";
-        slide[newIndex].className = "slide active";
+      // 最後のスライドを表示していたら最初をnextにする
+      if(nowSlideIndex == slides.length - 1){
+        nextSlideIndex = 0;
       }
-*/
-        
+
+      let indexArray = {};
+      indexArray.now = nowSlideIndex;
+      indexArray.prev = prevSlideIndex;
+      indexArray.next = nextSlideIndex;
       
-      
+      return indexArray;
+    }
+
+    function SetSlides(){
+
+      // スライドのインデックスを取得
+      index = GetIndexs();
+
+      // スライドの準備をする
+      let now  = slides[index.now].firstElementChild.cloneNode(true);
+      let prev = slides[index.prev].firstElementChild.cloneNode(true);
+      let next = slides[index.next].firstElementChild.cloneNode(true);
+
+      nowSlide.removeChild(nowSlide.firstElementChild);
+      prevSlide.removeChild(prevSlide.firstElementChild);
+      nextSlide.removeChild(nextSlide.firstElementChild);
+
+      // スライドを表示エリアにセットする
+      nowSlide.appendChild(now);
+      prevSlide.appendChild(prev);
+      nextSlide.appendChild(next);
+    }
+    
+    function ResetSlide(){
+      // スライドのインデックスを取得
+      index = GetIndexs();
+
+      // 表示するスライドのクラスを変更する
+      slides[index.now].className = "slides";
+      slides[index.next].className = "slides active";
+
+      SetSlides();
+    }
+    
+    let test = new Array();
+    let AutoSlide = null;
+
+    function MoveNext(){
+      test.push(setInterval(function(){
+        MoveSlide(-1);
+      }, 1));
+    }
+
+    function AutoMove(){
+      test.push(setInterval(function(){
+        MoveSlide(-1);
+      }, 1));
+    }
+
+    let x = 0;
+    function MoveSlide(distx){
+      // 指定位置まで移動したら止める
+      if(Math.abs(x) >= 300){
+        x = 0;
+        clearInterval(test.shift());
+        ResetSlide();
+        return;
+      }
+      // 要素を移動する
+      x = x + distx;
+      let newx =  x + "px";
+      nextSlide.firstElementChild.style.left = newx;
+    }
+
+    function PresetAutoMove(){
+      AutoSlide = setInterval(function(){
+        AutoMove();
+      }, 5000);
+    }
+
+    // nextボタンクリック時の動作
+    next.onclick = function(){
+      clearInterval(test.shift());
+      MoveNext();
+    }
+
+    window.onload = function(){
+      SetSlides();
+      PresetAutoMove();
+    }
+
+    window.onfocus = function(){
+      SetSlides();
+      PresetAutoMove();
+    }
+
+    window.onblur = function(){
+      clearInterval(AutoSlide);
+    }
+
+
     </script>
   </body>
 </html>
